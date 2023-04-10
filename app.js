@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authJwt());
 app.use(errorHandler);
+app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 
 //Routers
 const productsRouter = require('./routers/products');
@@ -27,7 +28,7 @@ app.use(`${api}/products`, productsRouter);
 app.use(`${api}/categories`, categoriesRouter);
 app.use(`${api}/users`, usersRouter);
 app.use(`${api}/orders`, ordersRouter);
-app.use('public/uploads', express.static(__dirname + '/public/uploads'));
+
 mongoose
   .connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
@@ -42,12 +43,12 @@ mongoose
   });
 
 //Development
-//app.listen(3000, () => {
-//console.log('server is running on port 3000');
-//});
+app.listen(3000, () => {
+  console.log('server is running on port 3000');
+});
 
 //Production
-var server = app.listen(process.env.PORT || 3000, function () {
-  var port = server.address().port;
-  console.log('Express is working on port' + port);
-});
+//var server = app.listen(process.env.PORT || 3000, function () {
+//var port = server.address().port;
+//console.log('Express is working on port' + port);
+//});
